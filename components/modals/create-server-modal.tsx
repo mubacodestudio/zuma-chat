@@ -21,10 +21,10 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
 import { FileUpload } from "../FileUpload";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useModal } from "@/hooks/use-modal-store";
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -35,13 +35,11 @@ const formSchema = z.object({
   }),
 });
 
-export const InitialModal = () => {
-  const [Mounted, setMounted] = useState(false);
+export const CreateServerModal = () => {
+  const { onClose, isOpen, type } = useModal();
   const router = useRouter();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const isModalOpen = isOpen && type === "createServer";
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -51,10 +49,6 @@ export const InitialModal = () => {
     },
   });
 
-  if (!Mounted) {
-    return null;
-  }
-
   const isLoading = form.formState.isLoading;
 
   const onSumbit = async (values: z.infer<typeof formSchema>) => {
@@ -63,14 +57,19 @@ export const InitialModal = () => {
 
       form.reset();
       router.refresh();
-      window.location.reload();
+      onClose();
     } catch (e) {
       console.log(e);
     }
   };
 
+  const handleClose = () => {
+    form.reset();
+    onClose();
+  };
+
   return (
-    <Dialog open>
+    <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
