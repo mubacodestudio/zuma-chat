@@ -30,7 +30,7 @@ export async function POST(req: Request) {
         Channels: {
           create: [{ name: "general", profileId: profile.id }],
         },
-        memebers: {
+        members: {
           create: [{ profileId: profile.id, role: MemberRole.ADMIN }],
         },
       },

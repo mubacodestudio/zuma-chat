@@ -28,7 +28,7 @@ export const ServerSidebar: React.FC<ServerSidebarProps> = async ({
         },
       },
 
-      memebers: {
+      members: {
         include: {
           profile: true,
         },
@@ -51,7 +51,7 @@ export const ServerSidebar: React.FC<ServerSidebarProps> = async ({
     (channel) => channel.type === ChannelType.VIDEO
   );
 
-  const memebers = server?.memebers.filter(
+  const members = server?.members.filter(
     (member) => member.profileId !== profile.id
   );
 
@@ -59,8 +59,8 @@ export const ServerSidebar: React.FC<ServerSidebarProps> = async ({
     redirect("/");
   }
 
-  const role = server?.memebers.find(
-    (memeber) => memeber.profileId === profile.id
+  const role = server?.members.find(
+    (member) => member.profileId === profile.id
   )?.role;
 
   return (

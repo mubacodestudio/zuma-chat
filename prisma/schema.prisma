@@ -18,7 +18,7 @@ model Profile {
   imageUrl String    @db.Text
   email    String    @db.Text
   server   Server[]
-  memeber  Memeber[]
+  members  Member[]
   Channels Channel[]
 
   createdAt DateTime @default(now())
@@ -29,11 +29,11 @@ model Server {
   id         String @id @default(uuid())
   name       String
   imageUrl   String @db.Text
-  inviteCode String @db.Text
+  inviteCode String @unique
 
   profileId String
   profile   Profile   @relation(fields: [profileId], references: [id], onDelete: Cascade)
-  memebers  Memeber[]
+  members   Member[]
   Channels  Channel[]
 
   createdAt DateTime @default(now())
@@ -48,7 +48,7 @@ enum MemberRole {
   GUEST
 }
 
-model Memeber {
+model Member {
   id   String     @id @default(uuid())
   role MemberRole @default(GUEST)
 
