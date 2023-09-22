@@ -17,11 +17,10 @@ const InviteCodePage: React.FC<InviteCodePageProps> = async ({ params }) => {
   }
 
   if (!params.inviteCode) {
-    return redirect;
-    ("/");
+    return redirect("/");
   }
 
-  const existingServer = db.server.findFirst({
+  const existingServer = await db.server.findFirst({
     where: {
       inviteCode: params.inviteCode,
       members: {
@@ -33,7 +32,7 @@ const InviteCodePage: React.FC<InviteCodePageProps> = async ({ params }) => {
   });
 
   if (existingServer) {
-    return redirect(`/servers/${existingServer?.id}`);
+    return redirect(`/servers/${existingServer.id}`);
   }
 
   const server = await db.server.update({
@@ -50,5 +49,12 @@ const InviteCodePage: React.FC<InviteCodePageProps> = async ({ params }) => {
       },
     },
   });
-  return <div>Hello invite</div>;
+
+  if (server) {
+    return redirect(`/servers/${server.id}`);
+  }
+
+  return null;
 };
+
+export default InviteCodePage;
