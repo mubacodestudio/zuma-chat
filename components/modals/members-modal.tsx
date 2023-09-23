@@ -36,12 +36,7 @@ import {
 import { MemberRole } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-
-const roleIconMap = {
-  GUEST: null,
-  MODERATOR: <ShieldCheck className="h-4 w-4 ml-2 text-indigo-500" />,
-  ADMIN: <ShieldAlert className="h-4 w-4 ml-2 text-rose-500" />,
-};
+import { roleIconMap } from "@/constants/iconEnum";
 
 export const MembersModal = () => {
   const router = useRouter();
